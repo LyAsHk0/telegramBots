@@ -2,7 +2,7 @@ from aiogram import F , Router
 from aiogram.filters import CommandStart , Command
 from aiogram.types import Message, CallbackQuery, LinkPreviewOptions
 import keyboards as kb
-from sostojanija import choose_movie
+from kinoSluchaj.states import choose_movie
 from aiogram.fsm.context import FSMContext
 import text_for_bot as tfb
 import sqlite3 
@@ -179,10 +179,10 @@ async def chose_film_lenght_and_get_the_movie(message: Message, state: FSMContex
         
     await state.update_data(film_length=length) 
     await get_random_movie(message, state)
-    await state.set_state(choose_movie.status_after_selecting_movie)
+    await state.set_state(choose_movie.state_after_selecting_movie)
 
 
-@router.message(choose_movie.status_after_selecting_movie)#6th step: Generation of a new film, or return to step 3
+@router.message(choose_movie.state_after_selecting_movie)#6th step: Generation of a new film, or return to step 3
 async def buttons_for_generate_new_movies(message: Message, state: FSMContext):
     if message.text == tfb.main_secondary_buttons[1]:
         await get_random_movie(message, state)
